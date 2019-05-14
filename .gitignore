@@ -30,3 +30,4 @@ src/test/
 target/generated-sources/
 /.idea/
 /.idea/workspace.xml
+/src/main/test/
