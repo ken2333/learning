@@ -9,7 +9,6 @@ public class Originator {
 
     private  String state;
 
-
     public void show()
     {
         System.out.println(this.state);
