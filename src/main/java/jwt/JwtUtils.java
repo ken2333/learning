@@ -1,9 +1,7 @@
 package jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwt;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.sun.corba.se.impl.orbutil.closure.Constant;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import org.junit.Test;
@@ -11,6 +9,7 @@ import org.junit.Test;
 import javax.crypto.SecretKey;
 import java.io.*;
 import java.security.Key;
+import java.util.Date;
 
 /**
  * @author ken
@@ -69,17 +68,17 @@ public class JwtUtils {
     public void test3()
     {
         //设置私钥
-        String key="aslkdjklasjdlasjdkljaskldjaslkdjlkasjdlkajslkdjklasdjlkasjlkdjklw";
+        String key="alksjdjaslkdjaslkmlasdfddlksdasfhjiouyqwe45632sd4g6fdg56df4h75q";
         String json="{\"name\":\"sun\",\"age\":23,\"sex\":\"man\"}";
         SecretKey secretKey = Keys.hmacShaKeyFor(key.getBytes());
         //签名
-        String compact = Jwts.builder().setPayload(json).signWith(secretKey).compact();
+        String compact = Jwts.builder().setPayload(json).signWith(secretKey).compact()+"123";
         System.out.println(compact);
         //解析
         boolean result=true;
         try {
             //在解析的时候故意传入错误的key，可以使用try catch的方法来捕捉SignatureException,来达到校验的目的
-            Jwt parse = Jwts.parser().setSigningKey("aslkdjklasjdlasjdkljaskldjaslkdjlkasjdlkajslkdjklas1djlkasjlkdjklw".getBytes()).parse(compact);
+            Jwt parse = Jwts.parser().setSigningKey(key.getBytes()).parse(compact);
             System.out.println(parse.getBody());
             System.out.println(parse.getHeader());
         }catch (SignatureException e)
@@ -89,6 +88,19 @@ public class JwtUtils {
         }
         System.out.println(result);
 
+
+    }
+
+    @Test
+    public void test4()
+    {
+        System.out.println("1".getBytes().length);
+        System.out.println("a".getBytes().length);
+        System.out.println("重".getBytes().length);
+        SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+        String sun = Jwts.builder().setSubject("sun").setIssuedAt(new Date()).signWith(secretKey).compact();
+        System.out.println(sun);
+        System.out.println(Jwts.parser().setSigningKey(secretKey).parse(sun).getBody());
 
     }
 }
