@@ -1,0 +1,4 @@
+E:\\IdeaProject\\learning\\src\\main\\java\\test\\text.txt
+E:\\IdeaProject\\learning\\src\\main\\java\\test2\\text.txt
+E:\\IdeaProject\\learning\\src\\main\\java\\test3\\text.txt
+E:\\IdeaProject\\learning\\src\\main\\java\\test4\\text.txt
