@@ -1,39 +1,36 @@
-package leetcode;
-
-import java.util.ArrayList;
+package leetCode;
 
 /**
- * @author ken
- * @date 2019/8/27  22:20
- * @description
+ * describe:
+ *
+ * @author syh
+ * @date 2019/08/29
  */
 public class Question5 {
 
+
+    public static String longestPalindrome(String s) {
+        int length = s.length();
+        String longestPalindrome="";
+        for (int i = 0; i < length; i++) {
+            for (int k = i; k < length; k++) {
+                String tem=s.substring(i,k);
+                for(int j=tem.length()-1;j>=0;j--)
+                {
+                    if (tem.charAt(tem.length()-j)!=tem.charAt(j)) {
+                     break;
+                    }
+                    if(j==0&& tem.length()>longestPalindrome.length())
+                    {
+                       longestPalindrome=tem;
+                    }
+                }
+            }
+        }
+        return longestPalindrome;
+    }
+
     public static void main(String[] args) {
-        int [] i = new int[]{1,2};
-        int [] k = new int[]{3};
-        ArrayList<Integer> resultArray = new ArrayList<>();
-        int sizei = i.length;
-        int sizek = k.length;
-        for (int m = 0; m < (sizei > sizek ? sizei : sizek); m++) {
-            if (m < sizei)
-                resultArray.add(i[m]);
-            if (m < sizek)
-                resultArray.add(k[m]);
-        }
-        resultArray.sort((a, b) -> {
-            return Float.compare(a, b);
-        });
-        int yushu = resultArray.size() % 2;
-        float result = 0f;
-        if (yushu == 0) {
-
-            result =(float) (resultArray.get(resultArray.size() / 2) + (float)resultArray.get(resultArray.size() / 2 - 1)) / 2;
-        } else {
-            System.out.println(resultArray.size() / 2);
-            result = resultArray.indexOf(resultArray.size() / 2);
-        }
-        System.out.println((int) result);
-
+        System.out.println(longestPalindrome("ababksab"));
     }
 }

@@ -1,0 +1,21 @@
+syntax = "proto3";
+package  pro;
+message Msg
+{
+	  bytes head = 1;
+	  bytes body = 2;
+}
+
+message Head
+{
+	  string head01 = 1;
+	  int32 head02 = 2;
+	  string head03 = 3;
+}
+
+message Body
+{
+	  string body01 = 1;
+	  int32 body02 = 2;
+	  string body03 = 3;
+}

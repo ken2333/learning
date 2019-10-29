@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../resources/echarts.js"></script>
+</head>
+<body>
+<div id="main" style="width: 100%;height: 600px"></div>
+</body>
+<script>
+    var myChart = echarts.init(document.getElementById('main'));
+    var option={
+        legend: {
+            show: true,//是否显示
+            align: 'left',//自动对其
+            padding: 5,//内边距
+            itemGap: 30,//每个图例之间的间隔
+            itemWidth: 20, //图例的宽度
+            itemHeight: 20,//图例的高度
+
+
+        },
+        tooltip: {trigger: 'item', showContent: true,
+        formatter: "  {b}:{d}%"
+        },
+        dataset: {
+            source:
+                [['product', '2012', '2013', '2014', '2015', '2016', '2017'],
+                    ['Matcha Latte', 41.1, 30.4, 65.1, 53.3, 83.8, 98.7],
+                    ['Milk Tea', 36.5, 92.1, 85.7, 83.1, 73.4, 55.1],
+                    ['Cheese Cocoa', 24.1, 67.2, 79.5, 86.4, 65.2, 82.5],
+                    ['Walnut Brownie', 0, 67.1, 69.2, 72.4, 53.9, 39.1]]
+        },
+        series: [
+            {
+                name:"Cheese Cocoa",
+                type: 'pie',
+                id: 'pie3',
+                radius: '60%',
+                center: ['50%', '50%'],
+                label: {show:true,formatter: '{b}= {@1} ({d}%)',position:"inner"}, //
+                encode: {itemName: 0, value: '2012', tooltip: '2012'},
+                roseType:'radius',
+                selectedMode:true,
+                selectedOffset:10,
+                clockwise:false,
+                startAngle:0,
+                /*  itemStyle: {
+                      normal: {
+                          // 阴影的大小
+                          shadowBlur: 200,
+                          // 阴影水平方向上的偏移
+                          shadowOffsetX: 0,
+                          // 阴影垂直方向上的偏移
+                          shadowOffsetY: 0,
+                          // 阴影颜色
+                          shadowColor: 'rgba(0, 0, 0, 0.5)'
+                      },
+                      emphasis: {
+                          shadowBlur: 200,
+                          shadowColor: 'rgba(0, 0, 0, 0.5)'
+                      }
+                  }*/
+            }],
+        toolbox:{
+            show:true,
+            itemSize:45,
+            feature:{
+                mytool1:{
+                    show:true,
+                    title:"自定义按钮",
+                    icon:"image://image/print.svg",
+                    onclick:function ( ) {
+                        console.log(option.series[4])
+                        var source=option.dataset.source;
+                         for(let i=1;i<source.length;i++)
+                         {
+
+                         }
+                        option.series[4].encode={itemName: 0, value: '2014', tooltip: '2014'}
+                        option.series[4].label={formatter: '{b}: {@2014} ({d}%)'}
+                        myChart.setOption(option,true)
+                    }
+                }
+            }
+        }
+    };
+    myChart.setOption(option);
+
+</script>
+</html>

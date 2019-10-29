@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.js"></script>
+<body>
+<textarea name="sun" id="sun" cols="30" rows="10"></textarea>
+<button id="test">test</button>
+<script>
+ $(function () {
+     $("#test").click(function () {
+         var text=$("#sun").val()
+         console.log(text)
+     })
+ })
+</script>
+</body>
+</html>
