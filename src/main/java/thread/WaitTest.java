@@ -3,7 +3,7 @@ package thread;
 /**
  * @author ken
  * @date 2019/10/29  22:28
- * @description 如何使用ob.wait() 和
+ * @description 如何使用ob.wait() 和notice
  */
 public class WaitTest {
     public static class R1 implements Runnable {
