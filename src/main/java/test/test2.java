@@ -7,6 +7,9 @@ package test;
  */
 public class test2 {
     public static void main(String[] args) {
-        
+            int i=1|4;
+        System.out.println(i);
+        System.out.println( 1 << 2);
+
     }
 }
