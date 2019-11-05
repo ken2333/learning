@@ -37,7 +37,7 @@ class  Thread2 extends  Thread{
         try {
             semaphore.acquire(count);
             System.out.println(Thread.currentThread().getName()+"获取了"+count+"信号量");
-            Thread.sleep(1000);
+            Thread.sleep(10000);
             System.out.println(Thread.currentThread().getName()+"释放了"+count+"信号量");
             semaphore.release(count);
         } catch (InterruptedException e) {

@@ -45,23 +45,12 @@ class  Count{
         this.money = money;
     }
 
-/*    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public int getMoney() {
-        return money;
-    }
-
-    public void setMoney(int money) {
-        this.money = money;
-    }*/
 }
 
+/**
+ *  写锁
+ */
 class writeAction implements Runnable
 {
     ReadWriteLock lock;
@@ -74,12 +63,14 @@ class writeAction implements Runnable
         this.lock = lock;
         this.money=money;
         this.count=count;
+        //获取写锁
         this.writeLock= lock.writeLock();
     }
 
     @Override
     public void run() {
         try {
+            //加锁
             writeLock.lock();
             System.out.println(Thread.currentThread().getName()+"开始写");
 
@@ -91,6 +82,7 @@ class writeAction implements Runnable
         } finally {
             System.out.println("当前的账号余额"+count.getMoney());
             System.out.println(Thread.currentThread().getName()+  "结束写");
+            //解锁
             writeLock.unlock();
         }
 

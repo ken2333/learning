@@ -24,9 +24,10 @@ public class cycleBarrierTest {
     {
         @Override
         public void run() {
-            System.out.println(Thread.currentThread().getName()+"开始执行!");
+            System.out.println(Thread.currentThread().getName()+"开始等待!");
             try {
                 //开始等待
+                Thread.sleep(1000);
                 cb.await();
                 System.out.println(Thread.currentThread().getName()+"继续执行!");
             } catch (InterruptedException e) {
