@@ -2,35 +2,29 @@ package test;
 
 import org.junit.Test;
 
-import java.util.List;
+import javax.swing.*;
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * @author ken
- * @date 2018-11-26  18:08
+ * @date 2019/10/15  22:39
  * @description
  */
-public class test {
-    @Test
-    public void test()
-    {
-        //通过服务
-        HelloImplService helloImplService = new HelloImplService();
-        Hello helloImplPort = helloImplService.getHelloImplPort();
-        List<String> list = helloImplPort.getList();
-        System.out.println(list);
-        System.out.println(helloImplPort.hello());
+public class TEST {
+    public static void main(String[] args) {
+        System.out.println(123);
     }
 
     @Test
-    public void test2()
-    {
-        //String pat="[+#$%^&]*";
-        String pat="[\\ /:*?'\"<>|+#^`$%&]*";
-        String fileName="互%#&联$网^//:\"<>|^`（这是括号）（）（）（）(————)+.doc";
-        fileName= fileName.replaceAll(pat, "");
-        fileName=fileName.replaceAll("（","(");
-        fileName=fileName.replaceAll("）",")");
-        fileName=fileName.replaceAll("—","-");
-        System.out.println(fileName);
+    public void test() {
+        String url="http://test.dc.cszysoft.com:19417";
+        Timestamp timestamp=new Timestamp(System.currentTimeMillis());
+
+        long longtime = System.currentTimeMillis();
+        String str = "AnHui_Zx" + "zce".toUpperCase() + longtime;
+        String token = new org.apache.shiro.crypto.hash.Md5Hash(str).toString().toUpperCase();
+        System.out.println(longtime);
+        System.out.println(token);
     }
 }

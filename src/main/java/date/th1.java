@@ -18,6 +18,7 @@ public class th1 {
     public void test()
     {
         LocalDate localDate =LocalDate.parse("1995-01-12",DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate of = LocalDate.of(2019, 12, 11);
         System.out.println(localDate.getYear());
         System.out.println(localDate.getDayOfYear());
         System.out.println(localDate.atTime(12,12));
@@ -32,7 +33,5 @@ public class th1 {
         System.out.println("------------"+dateTime.toString());
         System.out.println("------------"+dateTime2.toString());
         System.out.println(clock.getZone());
-
-
     }
 }

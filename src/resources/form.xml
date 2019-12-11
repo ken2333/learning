@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<RequestInfo>
+  <RequestBaseInfo>
+    <requestid>284</requestid>
+    <requestlevel>0</requestlevel>
+    <requestname>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</requestname>
+    <creatorname>李珊珊</creatorname>
+    <creatorid>14</creatorid>
+    <createdatetime>2019-11-22 15:46:01</createdatetime>
+    <currentnodename>西线风董事长审批</currentnodename>
+    <fqjsrdlm></fqjsrdlm>
+  </RequestBaseInfo>
+  <WorkflowInfo>
+    <workflowname workflowid="25">04请款流程</workflowname>
+    <workflowtypename workflowtypeid="2">营销类</workflowtypename>
+  </WorkflowInfo>
+  <DetailInfos/>
+  <MainTableInfo>
+    <TableRecords>
+      <Field id="6228" name="htbh" htmltype="1" type="2" value=""></Field>
+      <Field id="6229" name="pqz" htmltype="3" type="17" value="14">李珊珊</Field>
+      <Field id="6230" name="jsj" htmltype="1" type="3" value="2100000.00">2100000.00</Field>
+      <Field id="6231" name="lxk" htmltype="4" type="1" value=""></Field>
+      <Field id="6232" name="pqzshh" htmltype="5" type="1" value=""></Field>
+      <Field id="6233" name="htmch" htmltype="1" type="1" value=""></Field>
+      <Field id="6234" name="htydzhfbl" htmltype="1" type="1" value=""></Field>
+      <Field id="6235" name="yshpje" htmltype="1" type="3" value="0.00">0.00</Field>
+      <Field id="6236" name="bfb" htmltype="1" type="1" value="81">81</Field>
+      <Field id="6237" name="htj" htmltype="1" type="3" value=""></Field>
+      <Field id="6238" name="zbk" htmltype="4" type="1" value=""></Field>
+      <Field id="6239" name="xgtp" htmltype="6" type="2" value=""></Field>
+      <Field id="6240" name="jbr" htmltype="3" type="1" value="14">李珊珊</Field>
+      <Field id="6241" name="jhnfy" htmltype="4" type="1" value=""></Field>
+      <Field id="6242" name="xgfj" htmltype="6" type="1" value="156">第二、第三笔款请款函</Field>
+      <Field id="6243" name="dh" htmltype="1" type="1" value="12222222222">12222222222</Field>
+      <Field id="6244" name="lxfy" htmltype="4" type="1" value=""></Field>
+      <Field id="6245" name="jhwfy" htmltype="4" type="1" value=""></Field>
+      <Field id="6246" name="shqbm2" htmltype="3" type="4" value="39">营销管理部</Field>
+      <Field id="6247" name="fklyxgnr" htmltype="2" type="1" value="已完成销售目标 可付款">已完成销售目标;，可付款</Field>
+      <Field id="6248" name="jdk" htmltype="4" type="1" value="1">√</Field>
+      <Field id="6249" name="shqfkje" htmltype="1" type="3" value="1100000.00">1100000.00</Field>
+      <Field id="6250" name="lxr" htmltype="1" type="1" value="黄雁">黄雁</Field>
+      <Field id="6251" name="fjy" htmltype="1" type="3" value="1100000.00">1100000.00</Field>
+      <Field id="6252" name="qydw" htmltype="1" type="1" value="新疆西线风营销策划有限公司">新疆西线风营销策划有限公司</Field>
+      <Field id="6253" name="jsk" htmltype="4" type="1" value=""></Field>
+      <Field id="6254" name="khyh" htmltype="1" type="1" value="0000000000000000011">0000000000000000011</Field>
+      <Field id="6256" name="djqk" htmltype="2" type="1" value=""></Field>
+      <Field id="6257" name="xmyxjl" htmltype="3" type="17" value="14">李珊珊</Field>
+      <Field id="6258" name="shqshj" htmltype="3" type="2" value="2019-11-22">2019-11-22</Field>
+      <Field id="6259" name="qt" htmltype="4" type="1" value=""></Field>
+      <Field id="6260" name="qt2" htmltype="4" type="1" value=""></Field>
+      <Field id="6261" name="xglch" htmltype="3" type="152" value=""></Field>
+      <Field id="6262" name="lchbh" htmltype="1" type="1" value="qklc20191122003">qklc20191122003</Field>
+      <Field id="6263" name="shqbm" htmltype="1" type="2" value=""></Field>
+      <Field id="6264" name="shffqshp" htmltype="5" type="1" value="0">是</Field>
+      <Field id="6265" name="fqjshr" htmltype="3" type="161" value="总部营销中心"></Field>
+      <Field id="6267" name="glshx" htmltype="1" type="1" value=""></Field>
+      <Field id="6405" name="hzsspjg" htmltype="6" type="1" value=""></Field>
+      <Field id="6420" name="fqjsrdml" htmltype="1" type="1" value="总部营销中心">总部营销中心</Field>
+      <Field id="6436" name="yhzh" htmltype="1" type="1" value=""></Field>
+    </TableRecords>
+  </MainTableInfo>
+</RequestInfo>

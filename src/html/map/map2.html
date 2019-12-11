@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=e9fc77b2efc18470493012aa1debeaff"></script>
+<script src="https://cdn.bootcss.com/jquery/1.10.1/jquery.js"></script>
+<style>
+    html, body {
+        height: 100%;
+    }
+    #container {
+        height: 100%;
+    }
+    .input-card {
+        line-height: 1.5;
+        width: 150px;
+        top: 10px;
+        bottom: auto;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border-radius: .25rem;
+        width: 22rem;
+        border-width: 0;
+        border-radius: 0.4rem;
+        box-shadow: 0 2px 6px 0
+        rgba(114, 124, 245, .5);
+        position: fixed;
+        bottom: 1rem;
+        left: 1rem;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+        padding: 0.75rem 1.25rem;
+    }
+
+    .input-item{
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -ms-flex-align: center;
+        align-items: center;
+        width: 100%;
+        height: 3rem;
+    }
+
+
+</style>
+<body>
+<div id="container">
+
+</div>
+<div class='input-card' style="height: 50%;width: 150px">
+    <div class="input-item">
+        <input type="checkbox" onclick="toggleScale(this)"/>比例尺
+    </div>
+
+    <div class="input-item">
+        <input type="checkbox" id="toolbar" onclick="toggleToolBar(this)"/>工具条
+    </div>
+
+    <div class="input-item">
+        <input type="checkbox" id="toolbarDirection" disabled onclick="toggleToolBarDirection(this)"/>工具条方向盘
+    </div>
+
+    <div class="input-item">
+        <input type="checkbox" id="toolbarRuler" disabled onclick="toggleToolBarRuler(this)"/>工具条标尺
+    </div>
+
+    <div class="input-item">
+        <input type="checkbox" id="overview" onclick="toggleOverViewShow(this)"/>显示鹰眼
+    </div>
+
+    <div class="input-item">
+        <input type="checkbox" id="overviewOpen" disabled onclick="toggleOverViewOpen(this)"/>展开鹰眼
+    </div>
+</div>
+<div style="float: left;">
+    <button onclick="remove()">删除</button>
+    <button onclick="length()">长度</button>
+</div>
+
+</body>
+<script>
+    var key="e9fc77b2efc18470493012aa1debeaff";
+    var map=null;
+    var marker=null;
+    $(function () {
+         map = new AMap.Map('container', {
+            zoom:11,//级别
+                 center: [116.397428, 39.90923],//中心点坐标
+            viewMode:'2D',//使用3D视图
+        });
+
+        map.plugin(['AMap.Geolocation'], function () {
+            geolocation = new AMap.Geolocation({
+                enableHighAccuracy: true,//是否使用高精度定位，默认:true
+                timeout: 5000,          //超过10秒后停止定位，默认：无穷大
+                maximumAge: 0,           //定位结果缓存0毫秒，默认：0
+                convert: true,           //自动偏移坐标，偏移后的坐标为高德坐标，默认：true
+                showButton: true,        //显示定位按钮，默认：true
+                buttonPosition: 'LB',    //定位按钮停靠位置，默认：'LB'，左下角
+                buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+                showMarker: true,        //定位成功后在定位到的位置显示点标记，默认：true
+                showCircle: true,        //定位成功后用圆圈表示定位精度范围，默认：true
+                panToLocation: true,     //定位成功后将定位到的位置作为地图中心点，默认：true
+                zoomToAccuracy:true      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+            });
+            map.addControl(geolocation);
+            geolocation.getCurrentPosition(function (status,result) {
+
+            });
+            AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
+            AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+        });
+
+        map.on('click', showInfoClick);
+
+
+
+
+    })
+    var arr=new Array();
+    function showInfoClick(e) {
+        var text = '您在 [ '+e.lnglat.getLng()+','+e.lnglat.getLat()+' ] 的位置单击了地图！';
+        // 创建点覆盖物
+    /*    var marker = new AMap.Marker({
+            position: new AMap.LngLat(e.lnglat.getLng(),e.lnglat.getLat()),
+            map:map
+        });*/
+
+        arr.push([e.lnglat.getLng(),e.lnglat.getLat()]);
+       if(arr.length>=2)
+        {
+            addPolyline();
+        }
+        if(arr.length==1)
+        {
+            createMarker(e.lnglat.getLng(),e.lnglat.getLat(),map,"start");
+        }else
+        {
+            createMarker(e.lnglat.getLng(),e.lnglat.getLat(),map,"end");
+           var marker= map.getAllOverlays("marker");
+           console.log(marker);
+           if(marker.length>=3)
+           {
+              var tem= marker[marker.length-2]
+               map.remove([tem]);
+           }
+        }
+
+    }
+
+    function remove() {
+        var allOverlays = map.getAllOverlays();
+        arr=new Array();
+        allOverlays.forEach(function (item) {
+            map.remove(item)
+            
+        })
+
+    }
+    var polyline=null;
+    function  addPolyline() {
+            var temarr=[].concat(arr);
+          polyline = new AMap.Polyline({
+            path: temarr,            // 设置线覆盖物路径
+            strokeColor: '#3366FF',   // 线颜色
+            strokeOpacity: 1,         // 线透明度
+            strokeWeight: 2,          // 线宽
+            strokeStyle: 'solid',     // 线样式
+            strokeDasharray: [10, 5], // 补充线样式
+            geodesic: true,            // 绘制大地线
+              lineJoin:'round'
+        });
+        map.add(polyline);
+    }
+    function  length() {
+
+        var path=polyline.getPath();
+        var length=polyline.getLength();
+     var out=   Math.round(AMap.GeometryUtil.distanceOfLine(arr));
+     console.log(arr);
+        console.log(out);
+        arr.forEach(function (value) {
+            console.log(value[0]+","+value[1]+"|");
+        })
+    }
+    
+    function createMarker(lng,lat,map,icon) {
+        switch (icon) {
+            case "start":{
+                icon="img/start.svg"
+                break;
+            }
+            case "end":{
+                icon="img/end.svg";
+                break;
+            }
+        }
+
+        var MarkerOptions={
+            position:new AMap.LngLat(lng,lat),
+            map:map,
+            icon:icon,
+            offset:new AMap.Pixel(-15,-30)
+        };
+      var marker=new  AMap.Marker(MarkerOptions);
+      return marker;
+    }
+
+</script>
+</html>

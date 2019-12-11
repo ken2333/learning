@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=e9fc77b2efc18470493012aa1debeaff"></script>
+<script src="https://cdn.bootcss.com/jquery/1.10.1/jquery.js"></script>
+<style>
+    #container {width:800px; height: 800px; }
+</style>
+<body>
+<div id="container"></div>
+<div>
+    <input type="button" value="1" onclick="remove()">
+</div>
+</body>
+<script>
+    var key="e9fc77b2efc18470493012aa1debeaff";
+    var map=null;
+    var marker=null;
+    $(function () {
+         map = new AMap.Map('container', {
+            zoom:11,//级别
+            center: [116.397428, 39.90923],//中心点坐标
+            viewMode:'2D',//使用3D视图
+            layers: [//使用多个图层
+                new AMap.TileLayer.RoadNet()
+            ]
+        });
+
+        //实时路况图层
+        var trafficLayer = new AMap.TileLayer.Traffic({
+            zIndex: 10
+        });
+        map.add(trafficLayer);//添加图层到地图
+
+        var infoWindow = new AMap.InfoWindow({ //创建信息窗体
+            isCustom: true,  //使用自定义窗体
+            content:'<div>信息窗体</div>', //信息窗体的内容可以是任意html片段
+            offset: new AMap.Pixel(16, -45)
+        });
+        var onMarkerClick  =  function(e) {
+            console.log(e);
+            infoWindow.open(map, e.target.getPosition());//打开信息窗体
+            //e.target就是被点击的Marker
+        }
+        var marker = new AMap.Marker({
+            position: [116.481181, 39.989792]
+        })
+        map.add(marker);
+        marker.on('click',onMarkerClick);//绑定click事件
+    })
+
+    function remove() {
+        map.remove(marker)
+    }
+
+</script>
+</html>
