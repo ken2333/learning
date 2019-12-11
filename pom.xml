@@ -371,6 +371,7 @@
             <version>2.8.2</version>
         </dependency>
 
+ 
 
         <!-- https://mvnrepository.com/artifact/org.apache.shiro/shiro-core -->
         <dependency>
@@ -380,5 +381,13 @@
         </dependency>
 
  
+
+        <dependency>
+            <groupId>com.lmax</groupId>
+            <artifactId>disruptor</artifactId>
+            <version>3.4.2</version>
+        </dependency>
+
+
     </dependencies>
 </project>
