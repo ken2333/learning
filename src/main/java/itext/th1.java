@@ -51,9 +51,9 @@ public class th1 {
         document.add(title);
         document.addKeywords("123456");
         while (lineIterator.hasNext()) {
-            String tem = lineIterator.next();
+       /*     String tem = lineIterator.next();
             System.out.println(tem);
-            document.add(new Paragraph(tem, font));
+            document.add(new Paragraph(tem, font));*/
         }
         document.close();
         writer.close();
