@@ -103,12 +103,18 @@ public class CollectionsTest {
     public void test3() {
 
 
-        HashSet<String> strings = Sets.newHashSet("sunyehao", "zhaoritian", "ken sun","");
+        HashSet<String> strings = Sets.newHashSet("sunyehao", "zhaoritian", "ken sun", "");
         Iterable filter = Iterables.filter(strings, new predicate());
         filter.forEach(s -> System.out.println(s));
 
-        Multiset<String> multiset=new HashMultiset<>();
 
+    }
+
+    @Test
+    public void test4() {
+        HashSet<String> strings = Sets.newHashSet("c++", "c++", "java");
+        String onlyElement = Iterables.getOnlyElement(strings);
+        System.out.println(onlyElement);
     }
 
     static class predicate implements Predicate<String> {
@@ -130,7 +136,6 @@ public class CollectionsTest {
         }
 
     }
-
 
 
 }
