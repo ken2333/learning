@@ -79,11 +79,10 @@ public class VacationService {
         return   result.toString();
     }
     /*解析数据更新到服务器上面*/
-    public void update(String date,int year) throws IOException {
+    public static void  update(String date,int year) throws IOException {
 
         //调用接口获取数据
         String vacations = getVacations(date);
-        System.out.println(vacations);
         //解析并且存储数据
         JSONObject jsonObject=JSONObject.fromObject(vacations);
         int  code=   jsonObject.getInt("code");

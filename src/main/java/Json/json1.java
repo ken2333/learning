@@ -1,10 +1,11 @@
 package Json;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.*;
 import org.junit.Test;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,5 +46,22 @@ public class json1 {
             System.out.println(jb.getString("id")+jb.getString("name"));
         }
 
+    }
+
+    @Test
+    public void test2() throws IOException {
+        JSONReader reader = new JSONReader(new FileReader("E:\\ideaSpace\\learning_ken2333\\learning\\src\\main\\java\\Json\\city.json"));
+        reader.startArray();
+        List<JSONObject> cities=new ArrayList<>();
+        while(reader.hasNext()) {
+            String key = reader.readString();
+            JSONObject parse = (JSONObject) JSONObject.parse(key);
+            cities.add(parse);
+            System.out.println(key);
+
+        }
+         System.out.println(cities.size());
+        reader.endArray();
+        reader.close();
     }
 }

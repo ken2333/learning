@@ -12,38 +12,37 @@ import java.io.*;
  */
 public class test {
     public static void main(String[] args) {
-        String url = "http://www.bai2du.com";
+        test2();
+    }
+
+    @Test
+    public void test() {
+        String url = "http://www.baidu.com";
         OkHttpClient httpClient = new OkHttpClient();
         Request build = new Request.Builder().url(url).get().build();
         Call call = httpClient.newCall(build);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-
-                System.out.println("123321");
-
                 System.out.println("请求失败!");
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                System.out.println("123321");
                 String string = response.body().string();
                 //FileOutputStream outputStream=new FileOutputStream(new File("F:\\supports\\apache-tomcat-8.0.24\\temp\\test.txt"));
-                Writer writer=new FileWriter("F:\\tem\\tem.txt");
+                Writer writer = new FileWriter("F:\\tem\\tem.txt");
                 writer.write(string);
                 writer.flush();
-                if(writer!=null)
-                {
+                if (writer != null) {
                     writer.close();
                 }
             }
         });
     }
-
     @Test
-    public void test2() {
-        String url = "https://www.jianshu.com/p/da4a806e599b";
+    public static void test2() {
+        String url = "https://www.baidu.com";
         OkHttpClient okHttpClient = new OkHttpClient();
         final Request request = new Request.Builder()
                 .url(url)
@@ -54,6 +53,7 @@ public class test {
             public void run() {
                 try {
                     Response response = call.execute();
+                    System.out.println(response.code());
                     System.out.println(response.body().string());
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -91,7 +91,7 @@ public class test {
         });
     }
 
-     public static   Request.Builder addHeaders() {
+    public static Request.Builder addHeaders() {
         Request.Builder builder = new Request.Builder()
                 //addHeader，可添加多个请求头  header，唯一，会覆盖
                 .addHeader("Connection", "keep-alive")
@@ -100,13 +100,13 @@ public class test {
                 .header("sid", "eyJhZGRDaGFubmVsIjoiYXBwIiwiYWRkUHJvZHVjdCI6InFia3BsdXMiLCJhZGRUaW1lIjoxNTAzOTk1NDQxOTEzLCJyb2xlIjoiUk9MRV9VU0VSIiwidXBkYXRlVGltZSI6MTUwMzk5NTQ0MTkxMywidXNlcklkIjoxNjQxMTQ3fQ==.b0e5fd6266ab475919ee810a82028c0ddce3f5a0e1faf5b5e423fb2aaf05ffbf");
         return builder;
     }
+
     @Test
-    public void test4()
-    {
+    public void test4() {
         //1.创建OkHttpClient对象
         OkHttpClient okHttpClient = new OkHttpClient();
         //2.创建Request对象，设置一个url地址（百度地址）,设置请求方式。
-        Request request = addHeaders().url("http://www.baidu.com").method("GET",null).build();
+        Request request = addHeaders().url("http://www.baidu.com").method("GET", null).build();
         //3.创建一个call对象,参数就是Request请求对象
         try {
             Response response = okHttpClient.newCall(request).execute();
@@ -116,9 +116,9 @@ public class test {
         }
 
     }
+
     @Test
-    public void test5()
-    {
+    public void test5() {
         //1.创建OkHttpClient对象
         OkHttpClient okHttpClient = new OkHttpClient();
         //2.创建Request对象，设置一个url地址（百度地址）,设置请求方式。
@@ -132,6 +132,7 @@ public class test {
             public void onFailure(Call call, IOException e) {
                 System.out.println("qing");
             }
+
             //请求成功执行的方法
             @Override
             public void onResponse(Call call, Response response) throws IOException {
@@ -140,6 +141,24 @@ public class test {
             }
         });
 
+
+
+
     }
+
+
+    String post(String url, String json) throws IOException {
+        MediaType JSON = MediaType.get("application/json; charset=utf-8");
+        OkHttpClient client = new OkHttpClient();
+        RequestBody body = RequestBody.create(JSON, json);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+        try (Response response = client.newCall(request).execute()) {
+            return response.body().string();
+        }
+    }
+
 
 }
