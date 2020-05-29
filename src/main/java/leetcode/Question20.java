@@ -1,8 +1,13 @@
 package leetcode;
 
 import org.apache.shiro.crypto.hash.Hash;
+import org.springframework.context.annotation.Bean;
 
+import java.sql.Array;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * 给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串，判断字符串是否有效。
@@ -19,37 +24,109 @@ import java.util.HashSet;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class Question20 {
-
     public static boolean isValid(String s) {
-        int length = s.length();
-        HashSet<Integer> integers = new HashSet<>(length);
-        for (int i = 0; i < length; i++) {
-            char c = s.charAt(i);
-            switch (c)
-            {
-                case  '(':
-                {
 
-                    break;
+        int length = s.length();
+        ArrayList<String> list = new ArrayList<>();
+        ArrayDeque<String> arrayDeque = new ArrayDeque();
+        for (int i = 0; i < length; i++) {
+            String m = s.substring(i, i + 1);
+            String peek = arrayDeque.peek();
+            if (peek != null) {
+                switch (peek) {
+                    case "(": {
+                        if (")".equals(m)) {
+                            arrayDeque.pop();
+                        } else {
+                            arrayDeque.push(m);
+                        }
+                        break;
+                    }
+                    case "[": {
+                        if ("]".equals(m)) {
+                            arrayDeque.pop();
+                        } else {
+                            arrayDeque.push(m);
+                        }
+                        break;
+                    }
+                    case "{": {
+                        if ("}".equals(m)) {
+                            arrayDeque.pop();
+                        } else {
+                            arrayDeque.push(m);
+                        }
+                        break;
+                    }
                 }
+            } else {
+                arrayDeque.push(m);
             }
+
+        }
+        if (arrayDeque.isEmpty()) {
+            return true;
+        } else {
+            return false;
         }
 
-        return false;
     }
 
-    public static int getIndex(String string, char search, int start, int end) {
-        int result = -1;
-        for (; start <= end; end--) {
-            if (search == string.charAt(end)) {
-                result = end;
-                break;
+    public static boolean isValid2(String s) {
+
+        int length = s.length();
+        ArrayList<String> arrayDeque = new ArrayList<>();
+        for (int i = 0; i < length; i++) {
+            String m = s.substring(i, i + 1);
+            if (arrayDeque.size() == 0) {
+                arrayDeque.add(m);
+                continue;
             }
+            String peek = arrayDeque.get(arrayDeque.size() - 1);
+            if (peek != null) {
+                switch (peek) {
+                    case "(": {
+                        if (")".equals(m)) {
+                            arrayDeque.remove((arrayDeque.size() - 1));
+                        } else {
+                            arrayDeque.add(m);
+                        }
+                        break;
+                    }
+                    case "[": {
+                        if ("]".equals(m)) {
+                            arrayDeque.remove((arrayDeque.size() - 1));
+
+                        } else {
+                            arrayDeque.add(m);
+                        }
+                        break;
+                    }
+                    case "{": {
+                        if ("}".equals(m)) {
+                            arrayDeque.remove((arrayDeque.size() - 1));
+
+                        } else {
+                            arrayDeque.add(m);
+                        }
+                        break;
+                    }
+                }
+            } else {
+                arrayDeque.add(m);
+            }
+
         }
-        return result;
+        if (arrayDeque.isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
     public static void main(String[] args) {
-        System.out.println(isValid("(()("));
+        //System.out.println(isValid("()"));
+        System.out.println(isValid2("()[]{}"));
     }
 }

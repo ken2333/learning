@@ -4,11 +4,17 @@ import com.sun.corba.se.impl.orbutil.closure.Constant;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
+import sun.security.rsa.RSAPrivateCrtKeyImpl;
+import sun.security.rsa.RSAPublicKeyImpl;
+import sun.security.util.DerValue;
 
 import javax.crypto.SecretKey;
 import java.io.*;
-import java.security.Key;
+import java.security.*;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
 import java.util.Date;
 
 /**
@@ -101,6 +107,38 @@ public class JwtUtils {
         String sun = Jwts.builder().setSubject("sun").setIssuedAt(new Date()).signWith(secretKey).compact();
         System.out.println(sun);
         System.out.println(Jwts.parser().setSigningKey(secretKey).parse(sun).getBody());
+
+    }
+    @Test
+    public void test5() throws IOException {
+        //生成key
+        KeyPair keyPair = Keys.keyPairFor(SignatureAlgorithm.RS256);
+        PrivateKey aPrivate = keyPair.getPrivate();
+        PublicKey aPublic = keyPair.getPublic();
+        FileOutputStream publicKey=new FileOutputStream("e:/tem/publicKey");
+        FileOutputStream privateKey=new FileOutputStream("e:/tem/privateKey");
+        IOUtils.write(aPublic.getEncoded(),publicKey);
+        IOUtils.write(aPrivate.getEncoded(),privateKey);
+        privateKey.close();
+        publicKey.close();
+        
+        
+        
+    }
+    @Test
+    public void test6() throws IOException, InvalidKeyException {
+
+        String json="{\"sites\":{\"site\":[{\"id\":\"1\",\"name\":\"菜鸟教程\",\"url\":\"www.runoob.com\"},{\"id\":\"2\",\"name\":\"菜鸟工具\",\"url\":\"c.runoob.com\"},{\"id\":\"3\",\"name\":\"Google\",\"url\":\"www.google.com\"}]}}";
+        //去读私钥
+        byte[] privateKey = IOUtils.toByteArray(new FileInputStream("e:/tem/privateKey"));
+        byte[] publicKey = IOUtils.toByteArray(new FileInputStream("e:/tem/publicKey"));
+        RSAPrivateKey rsaPrivateKey = RSAPrivateCrtKeyImpl.newKey(privateKey);
+        RSAPublicKeyImpl rsaPublicKey = new RSAPublicKeyImpl(publicKey);
+        String compact = Jwts.builder().setPayload(json).signWith(rsaPrivateKey, SignatureAlgorithm.RS256).compact();
+        Object body;
+        body = Jwts.parser().setSigningKey(rsaPublicKey).parse(compact).getBody().toString();
+        System.out.println(compact);
+        System.out.println(body);
 
     }
 }

@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Scope;
 @ComponentScan(value = "spring" )
 public class MainConfig {
 
-    @Bean
+    @Bean()
     @Scope(value = "prototype")
     public Student student()
     {

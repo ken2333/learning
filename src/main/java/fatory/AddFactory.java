@@ -7,8 +7,6 @@ package fatory;
  */
 public class AddFactory implements  Fatory<Integer> {
 
-
-
     public Calculate<Integer> getFatory(int a,int b) {
 
         return new AddClass(a,b);

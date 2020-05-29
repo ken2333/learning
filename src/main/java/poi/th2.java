@@ -1,10 +1,12 @@
 package poi;
 
 import jdk.nashorn.internal.runtime.regexp.joni.Regex;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.util.CellAddress;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -14,6 +16,8 @@ import javax.xml.bind.SchemaOutputResolver;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author ken
@@ -23,7 +27,7 @@ import java.util.*;
 public class th2 {
     @Test
     public void test() throws IOException {
-        FileInputStream in = new FileInputStream("D:\\ideaSpace\\Learning\\src\\main\\resources\\功能分类数据.xls");
+        FileInputStream in = new FileInputStream("E:\\works\\GX_FC\\资料\\1212全区维护管理员管理区域情况表.xls");
         HSSFWorkbook workbook = new HSSFWorkbook(in);
         HSSFSheet sheetAt = workbook.getSheetAt(0);
         int lastRowNum = sheetAt.getLastRowNum();
@@ -33,9 +37,18 @@ public class th2 {
             Iterator<Cell> iterator1 = next.iterator();
             while (iterator1.hasNext()) {
                 Cell cell = iterator1.next();
-                System.out.print(cell.getStringCellValue());
+                CellType cellTypeEnum = cell.getCellTypeEnum();
+                switch (cellTypeEnum.name()) {
+                    case "STRING": {
+                        System.out.println(cell.getStringCellValue());
+                        break;
+                    }
+                    case "NUMERIC": {
+                        System.out.println(cell.getNumericCellValue());
+                        break;
+                    }
+                }
             }
-            System.out.println();
         }
     }
 
@@ -51,8 +64,11 @@ public class th2 {
     public void test3() {
         String str = "2018-10-12 20:22.0";
         System.out.println(str.substring(0, str.indexOf('.')));
-    }
+        String lkajdlkas = "asdasdssasdasd";
 
+    }
+// TODO: 2020/5/15 sssdsad 
+    
     @Test
     public void test4() throws IOException {
         FileInputStream inputStream = new FileInputStream("F:\\ideaSpace\\Learning\\src\\main\\resources\\资产月报表.xls");
@@ -84,25 +100,6 @@ public class th2 {
             }
         }
         System.out.println(list);
-    }
-
-    @Test
-    public void test5() throws IOException {
-        FileInputStream inputStream = new FileInputStream("F:\\ideaSpace\\Learning\\src\\main\\resources\\资产月报表.xls");
-        HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
-        List<String> list = new ArrayList<>();
-        HSSFSheet sheetAt = workbook.getSheetAt(0);
-        List<CellRangeAddress> mergedRegions = sheetAt.getMergedRegions();
-
-        for (CellRangeAddress mergedRegion : mergedRegions) {
-            String[] split = mergedRegion.formatAsString().split(":");
-            if (split[0].substring(0, 1).equals(split[1].substring(0, 1))) {
-                System.out.println(mergedRegion.formatAsString("GDZCYBB-资产月报表", true));
-                int numberOfCells = mergedRegion.getNumberOfCells();
-                System.out.println(numberOfCells);
-
-            }
-        }
     }
 
     @Test
@@ -141,6 +138,25 @@ public class th2 {
             }
         }
         System.out.println(list);
+    }
+
+    @Test
+    public void test5() throws IOException {
+        FileInputStream inputStream = new FileInputStream("F:\\ideaSpace\\Learning\\src\\main\\resources\\资产月报表.xls");
+        HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
+        List<String> list = new ArrayList<>();
+        HSSFSheet sheetAt = workbook.getSheetAt(0);
+        List<CellRangeAddress> mergedRegions = sheetAt.getMergedRegions();
+
+        for (CellRangeAddress mergedRegion : mergedRegions) {
+            String[] split = mergedRegion.formatAsString().split(":");
+            if (split[0].substring(0, 1).equals(split[1].substring(0, 1))) {
+                System.out.println(mergedRegion.formatAsString("GDZCYBB-资产月报表", true));
+                int numberOfCells = mergedRegion.getNumberOfCells();
+                System.out.println(numberOfCells);
+
+            }
+        }
     }
 
     //获取父节点
@@ -213,7 +229,7 @@ public class th2 {
     public void test8() throws UnsupportedEncodingException {
         System.out.println(System.getProperty("file.encoding"));
         System.out.println(Charset.defaultCharset());
-        String str="你好";
+        String str = "你好";
         byte[] bytes = str.getBytes();
         for (byte aByte : bytes) {
             System.out.println(aByte);
@@ -224,5 +240,36 @@ public class th2 {
             System.out.println(b);
         }
     }
+
+    @Test
+    public void test9() {
+
+        String[] s = new String[]{"1111", "2222", "333"};
+        List<String> s2 = new ArrayList<>();
+        s2.add("111");
+        s2.add("222");
+        System.out.println(StringUtils.join());
+
+    }
+
+    private static final Pattern p_html = Pattern.compile("<[a-zA-z]{1,9}((?!>).)*>", Pattern.CASE_INSENSITIVE);
+
+    private static final Pattern t_html = Pattern.compile("</[a-zA-z]{1,9}>", Pattern.CASE_INSENSITIVE);
+
+    @Test
+    public void test10() {
+        Pattern p_html = Pattern.compile("<[a-zA-z]{1,9}((?!>).)*>", Pattern.CASE_INSENSITIVE);
+        Pattern t_html = Pattern.compile("</[a-zA-z]{1,9}>", Pattern.CASE_INSENSITIVE);
+        String html = "<p style=\"text-align: left; line-height: 5em; text-indent: 2em;\">收到请ssssssssssssssss<img class=\"currentImg\" id=\"currentImg\" src=\"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1587730945342&di=82c94e2e523d97a2c96b43555f4b9671&imgtype=0&src=http%3A%2F%2Fa3.att.hudong.com%2F14%2F75%2F01300000164186121366756803686.jpg\" style=\"top: 48px; left: 254px; width: 574.667px; height: 431px; cursor: pointer;\" title=\"点击查看源网页\" width=\"574.66666666667\" height=\"431\"/></p>";
+        Matcher m_script = p_html.matcher(html);
+
+        html = m_script.replaceAll("");
+
+        Matcher l_script = t_html.matcher(html);
+
+        System.out.println(l_script.replaceAll(""));
+
+    }
+
 
 }

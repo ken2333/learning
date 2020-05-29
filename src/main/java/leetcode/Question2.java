@@ -1,4 +1,5 @@
-package leetCode;
+package leetcode;
+
 
 /**
  * describe:
@@ -57,6 +58,5 @@ public class Question2 {
         l4.next = l5;
         l5.next = l6;
         ListNode result = addTwoNumbers(l1, l4);
-        System.out.println(result);
     }
 }

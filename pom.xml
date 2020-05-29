@@ -95,7 +95,7 @@
             <optional>true</optional>
         </dependency>
 
- 
+
         <!--pdf-->
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
@@ -153,13 +153,11 @@
         </dependency>
 
 
-
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.5.6</version>
         </dependency>
-
 
 
         <!--ftp-->
@@ -173,7 +171,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>4.3.12.RELEASE</version>
+            <version>5.1.5.RELEASE</version>
         </dependency>
 
         <dependency>
@@ -326,7 +324,6 @@
         </dependency>
 
 
-
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
@@ -353,7 +350,7 @@
             <version>1.16.20</version>
             <scope>provided</scope>
         </dependency>
- 
+
         <!--zookeeper依赖-->
         <dependency>
             <groupId>org.apache.zookeeper</groupId>
@@ -368,7 +365,6 @@
         </dependency>
 
 
-
         <!-- https://mvnrepository.com/artifact/org.apache.shiro/shiro-core -->
         <dependency>
             <groupId>org.apache.shiro</groupId>
@@ -376,7 +372,6 @@
             <version>1.4.2</version>
         </dependency>
 
- 
 
         <dependency>
             <groupId>com.lmax</groupId>
@@ -395,6 +390,31 @@
             <artifactId>joda-time</artifactId>
             <version>2.10.5</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>3.8.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>jwks-rsa</artifactId>
+            <version>0.9.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
+            <version>8.2.1</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>3.11.0</version>
+        </dependency>
+
 
     </dependencies>
 </project>

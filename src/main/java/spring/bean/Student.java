@@ -3,6 +3,7 @@ package spring.bean;
 import lombok.Data;
 import lombok.ToString;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 /**
@@ -50,5 +51,23 @@ public class Student {
 
     public void setAge( Integer age) {
         this.age = age;
+    }
+
+    public void test(@NonNull String nonNull)
+    {
+        System.out.println(nonNull);
+    }
+
+    public  static  class  Infor
+    {
+        private  String infor;
+
+        public String getInfor() {
+            return infor;
+        }
+
+        public void setInfor(String infor) {
+            this.infor = infor;
+        }
     }
 }

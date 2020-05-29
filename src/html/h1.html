@@ -6,15 +6,57 @@
 </head>
 <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.js"></script>
 <body>
-<textarea name="sun" id="sun" cols="30" rows="10"></textarea>
-<button id="test">test</button>
+
 <script>
- $(function () {
-     $("#test").click(function () {
-         var text=$("#sun").val()
-         console.log(text)
-     })
- })
+    var base_keyStr= "ABCDEFGHIJKLMNOP" + "QRSTUVWXYZabcdef" + "ghijklmnopqrstuv" + "wxyz0123456789+/" + "=";
+
+        input = unicodetoBytes(input);
+        var output = "";
+        var chr1, chr2, chr3 = "";
+        var enc1, enc2, enc3, enc4 = "";
+        var i = 0;
+        do {
+            chr1 = input[i++];
+            chr2 = input[i++];
+            chr3 = input[i++];
+            enc1 = chr1 >> 2;
+            enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+            enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+            enc4 = chr3 & 63;
+            if (isNaN(chr2)) {
+                enc3 = enc4 = 64;
+            } else if (isNaN(chr3)) {
+                enc4 = 64;
+            }
+            output = output + base_keyStr.charAt(enc1) + base_keyStr.charAt(enc2) + base_keyStr.charAt(enc3) + base_keyStr.charAt(enc4);
+            chr1 = chr2 = chr3 = "";
+            enc1 = enc2 = enc3 = enc4 = "";
+        } while (i < input.length);
+    }
+
+    function unicodetoBytes(s) {
+        var result = new Array();
+        if (s == null || s == "")
+            return result;
+        result.push(255);
+        result.push(254);
+        for (var i = 0; i < s.length; i++) {
+            var c = s.charCodeAt(i).toString(16);
+            if (c.length == 1)
+                c = "000" + c;
+            else if (c.length == 2)
+                c = "00" + c;
+            else if (c.length == 3)
+                c = "0" + c;
+            var var1 = parseInt(c.substring(2), 16);
+            var var2 = parseInt(c.substring(0, 2), 16);
+            result.push(var1);
+        }
+    }
+    console.log(base_encode64("22211"));
+    console.log(base_encode64("22211"));
+    console.log(base_encode64("222112是"));
+
 </script>
 </body>
 </html>

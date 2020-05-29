@@ -5,5 +5,6 @@ package strategy;
 public interface CashStrategy {
 
 
+    //收钱的接口
     public double acceptCash(double money);
 }
