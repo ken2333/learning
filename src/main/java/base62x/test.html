@@ -2,9 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
+    <script src="Base62x.class.js"></script>
 </head>
 <body>
-$END$
+
+<script>
+    let encode = Base62x.encode("安居集团机关党支部2020年度“党建”党业融合++ - 副本.doc");
+    console.log(encode);
+
+    let decode = Base62x.decode(encode);
+    console.log(decode);
+</script>
 </body>
 </html>
