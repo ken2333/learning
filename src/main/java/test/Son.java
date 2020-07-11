@@ -6,11 +6,22 @@ package test;
  * @author syh
  * @date 2020/07/01
  */
-public class Father {
+public class Son  extends  Father{
 
-    private String prvateMsg;
+    public Son() {
+        super();
+    }
 
-    public Father() {
-        this.prvateMsg = "fatherName";
+    public void test()
+    {
+        super.dosometing();
+    }
+
+    public static void main(String[] args) {
+        Son son = new Son();
+        son.dosometing();
+        StringBuilder builder = new StringBuilder();
+        builder.append("111111111111");
+        System.out.println(builder.toString());
     }
 }

@@ -1,18 +1,16 @@
-package io.NioTest;
+package nio.NioTest;
 
 /**
  * @author ken
  * @date 2019/10/28  22:42
  * @description
  */
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SocketChannel;
+import java.nio.channels.*;
 import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.Random;
@@ -110,7 +108,7 @@ public class ServiceSocketChannelDemo {
                             if(key.isReadable()){
 
                                 /*通过SelectionKey获取通道对应的缓冲区*/
-                                Buffers  buffers = (Buffers)key.attachment();
+                                Buffers buffers = (Buffers)key.attachment();
                                 ByteBuffer readBuffer = buffers.getReadBuffer();
                                 ByteBuffer writeBuffer = buffers.getWriteBuffer();
 
@@ -132,7 +130,6 @@ public class ServiceSocketChannelDemo {
                                 /*先写入"echo:"，再写入收到的信息*/
                                 writeBuffer.put("echo from service:".getBytes("UTF-8"));
                                 writeBuffer.put(readBuffer);
-
                                 readBuffer.clear();
 
                                 /*设置通道写事件*/
@@ -143,7 +140,7 @@ public class ServiceSocketChannelDemo {
                             /*通道感兴趣写事件且底层缓冲区有空闲*/
                             if(key.isWritable()){
 
-                                Buffers  buffers = (Buffers)key.attachment();
+                                Buffers buffers = (Buffers)key.attachment();
 
                                 ByteBuffer writeBuffer = buffers.getWriteBuffer();
                                 writeBuffer.flip();

@@ -86,7 +86,9 @@ public class ServiceSocketChannelDemo {
 
                         /*若发现异常，说明客户端连接出现问题,但服务器要保持正常*/
                         try{
-                            /*ssc通道只能对链接事件感兴趣*/
+                            /*ssc通道只能对链接事件感兴趣
+                            * 如果检测到连接事件，就注册这个连接到注册器中
+                            * */
                             if(key.isAcceptable()){
 
                                 /*accept方法会返回一个普通通道，
@@ -95,14 +97,16 @@ public class ServiceSocketChannelDemo {
                                 sc.configureBlocking(false);
 
                                 /*向选择器注册这个通道和普通通道感兴趣的事件，同时提供这个新通道相关的缓冲区*/
-                                int interestSet = SelectionKey.OP_READ;
-                                sc.register(selector, interestSet, new Buffers(256, 256));
+                                sc.register(selector, SelectionKey.OP_READ, new Buffers(256, 256));
 
                                 System.out.println("accept from " + sc.getRemoteAddress());
                             }
 
 
-                            /*（普通）通道感兴趣读事件且有数据可读*/
+                            /*（普通）通道感兴趣读事件且有数据可读
+                            *
+                            * 如果是可读事件，就读取数据
+                            * */
                             if(key.isReadable()){
 
                                 /*通过SelectionKey获取通道对应的缓冲区*/
@@ -196,9 +200,9 @@ public class ServiceSocketChannelDemo {
     public static void main(String[] args) throws InterruptedException, IOException{
         Thread thread = new Thread(new TCPEchoServer(8080));
         thread.start();
-        Thread.sleep(100000);
-        /*结束服务器线程*/
-        thread.interrupt();
+     /*   Thread.sleep(1000000);
+        *//*结束服务器线程*//*
+        thread.interrupt();*/
     }
 
 }

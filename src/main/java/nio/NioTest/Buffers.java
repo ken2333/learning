@@ -1,4 +1,4 @@
-package io.NioTest;
+package nio.NioTest;
 
 import java.nio.ByteBuffer;
 

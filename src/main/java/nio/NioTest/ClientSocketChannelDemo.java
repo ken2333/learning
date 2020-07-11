@@ -1,4 +1,4 @@
-package io.NioTest;
+package nio.NioTest;
 
 /**
  * @author ken
@@ -37,20 +37,14 @@ public class ClientSocketChannelDemo {
 
         @Override
         public void run() {
-
             /*创建解码器*/
             Charset utf8 = Charset.forName("UTF-8");
-
             Selector selector;
-
             try {
-
                 /*创建TCP通道*/
                 SocketChannel sc = SocketChannel.open();
-
                 /*设置通道为非阻塞*/
                 sc.configureBlocking(false);
-
                 /*创建选择器*/
                 selector = Selector.open();
 
@@ -71,7 +65,7 @@ public class ClientSocketChannelDemo {
                 System.out.println(name + " " + "finished connection");
 
             } catch (IOException e) {
-                System.out.println("client connect failed");
+                System.out.println("client connect failed ：");
                 return;
             }
 

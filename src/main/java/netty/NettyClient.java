@@ -32,7 +32,7 @@ public class NettyClient {
 
         while (true) {
             channel.writeAndFlush(new Date() + ": hello world!");
-            Thread.sleep(2000);
+            Thread.sleep(10);
         }
     }
 }

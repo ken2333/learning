@@ -5,6 +5,7 @@ package io.NioTest;
  * @date 2019/10/28  22:52
  * @description
  */
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -20,7 +21,7 @@ import java.util.Set;
 /*客户端:客户端每隔1~2秒自动向服务器发送数据，接收服务器接收到数据并显示*/
 public class ClientSocketChannelDemo {
 
-    public static class TCPEchoClient implements Runnable{
+    public static class TCPEchoClient implements Runnable {
 
         /*客户端线程名*/
         private String name;
@@ -29,13 +30,13 @@ public class ClientSocketChannelDemo {
         /*服务器的ip地址+端口port*/
         private InetSocketAddress remoteAddress;
 
-        public TCPEchoClient(String name, InetSocketAddress remoteAddress){
+        public TCPEchoClient(String name, InetSocketAddress remoteAddress) {
             this.name = name;
             this.remoteAddress = remoteAddress;
         }
 
         @Override
-        public void run(){
+        public void run() {
 
             /*创建解码器*/
             Charset utf8 = Charset.forName("UTF-8");
@@ -63,8 +64,8 @@ public class ClientSocketChannelDemo {
                 sc.connect(remoteAddress);
 
                 /*等待三次握手完成*/
-                while(!sc.finishConnect()){
-                    ;
+                while (!sc.finishConnect()) {
+
                 }
 
                 System.out.println(name + " " + "finished connection");
@@ -75,10 +76,10 @@ public class ClientSocketChannelDemo {
             }
 
             /*与服务器断开或线程被中断则结束线程*/
-            try{
+            try {
 
                 int i = 1;
-                while(!Thread.currentThread().isInterrupted()){
+                while (!Thread.currentThread().isInterrupted()) {
 
                     /*阻塞等待*/
                     selector.select();
@@ -88,14 +89,14 @@ public class ClientSocketChannelDemo {
                     Iterator<SelectionKey> it = keySet.iterator();
 
                     /*遍历每个已就绪的通道，处理这个通道已就绪的事件*/
-                    while(it.hasNext()){
+                    while (it.hasNext()) {
 
                         SelectionKey key = it.next();
                         /*防止下次select方法返回已处理过的通道*/
                         it.remove();
 
                         /*通过SelectionKey获取对应的通道*/
-                        Buffers  buffers = (Buffers)key.attachment();
+                        Buffers buffers = (Buffers) key.attachment();
                         ByteBuffer readBuffer = buffers.getReadBuffer();
                         ByteBuffer writeBuffer = buffers.getWriteBuffer();
 
@@ -103,7 +104,7 @@ public class ClientSocketChannelDemo {
                         SocketChannel sc = (SocketChannel) key.channel();
 
                         /*表示底层socket的读缓冲区有数据可读*/
-                        if(key.isReadable()){
+                        if (key.isReadable()) {
                             /*从socket的读缓冲区读取到程序定义的缓冲区中*/
                             sc.read(readBuffer);
                             readBuffer.flip();
@@ -115,7 +116,7 @@ public class ClientSocketChannelDemo {
                         }
 
                         /*socket的写缓冲区可写*/
-                        if(key.isWritable()){
+                        if (key.isWritable()) {
                             writeBuffer.put((name + "  " + i).getBytes("UTF-8"));
                             //从写模式变成度模式
                             writeBuffer.flip();
@@ -129,16 +130,16 @@ public class ClientSocketChannelDemo {
                     Thread.sleep(1000 + rnd.nextInt(1000));
                 }
 
-            }catch(InterruptedException e){
+            } catch (InterruptedException e) {
                 System.out.println(name + " is interrupted");
-            }catch(IOException e){
+            } catch (IOException e) {
                 System.out.println(name + " encounter a connect error");
-            }finally{
+            } finally {
                 try {
                     selector.close();
                 } catch (IOException e1) {
                     System.out.println(name + " close selector failed");
-                }finally{
+                } finally {
                     System.out.println(name + "  closed");
                 }
             }
@@ -146,17 +147,17 @@ public class ClientSocketChannelDemo {
 
     }
 
-    public static void main(String[] args) throws InterruptedException{
+    public static void main(String[] args) throws InterruptedException {
 
         InetSocketAddress remoteAddress = new InetSocketAddress("127.0.0.1", 8080);
 
         Thread ta = new Thread(new TCPEchoClient("thread a", remoteAddress));
-    /*    Thread tb = new Thread(new TCPEchoClient("thread b", remoteAddress));
+        Thread tb = new Thread(new TCPEchoClient("thread b", remoteAddress));
         Thread tc = new Thread(new TCPEchoClient("thread c", remoteAddress));
-        Thread td = new Thread(new TCPEchoClient("thread d", remoteAddress));*/
+        Thread td = new Thread(new TCPEchoClient("thread d", remoteAddress));
 
         ta.start();
-      /*  tb.start();
+   /*     tb.start();
         tc.start();*/
 
         Thread.sleep(5000);

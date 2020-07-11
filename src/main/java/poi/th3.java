@@ -35,7 +35,7 @@ public class th3 {
 
       //   cell.setCellType(Cell.CELL_TYPE_NUMERIC);
         cell.setCellValue(new Double("123123.23"));
-        OutputStream out=new FileOutputStream("F:\\ideaSpace\\Learning\\src\\main\\resources\\sun.xlsx");
+        OutputStream out=new FileOutputStream("e:\\tem\\sun.xlsx");
 
         workbook.write(out);
 

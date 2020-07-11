@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.HashMap;
 import java.util.Hashtable;
 
 /**
@@ -25,9 +26,10 @@ public class test {
     public void test()
     {
         //String content="{\"wi00\":123,\"wi01\":321,\"wi28\":1321,\"wi29\":\"SSDSKLJ_SSDS123321\"}";
-        String content="你好啊啊啊啊";
+        String content="B92501558806426386FA5A14570A4C42";
+
         try {
-            createQrCode("F:\\tem\\xxx.jpg",content,900,"JPEG");
+            createQrCode("E:\\tem\\xxx2.jpg",content,900,"JPEG");
         } catch (WriterException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -37,7 +39,7 @@ public class test {
 
     @Test
     public void test2() throws IOException {
-        readQrCode(new FileInputStream("F:\\tem\\xxx.jpg"));
+        readQrCode(new FileInputStream("E:\\tem\\xxx2.jpg"));
     }
 
     /**
@@ -51,7 +53,7 @@ public class test {
      */
     public static boolean createQrCode(String  filePath, String content, int qrCodeSize, String imageFormat) throws WriterException, IOException, WriterException {
         //设置二维码纠错级别ＭＡＰ
-        Hashtable<EncodeHintType, ErrorCorrectionLevel> hintMap = new Hashtable<EncodeHintType, ErrorCorrectionLevel>();
+        HashMap<EncodeHintType, ErrorCorrectionLevel> hintMap = new HashMap<>();
         hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);  // 矫错级别
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         //创建比特矩阵(位矩阵)的QR码编码的字符串
