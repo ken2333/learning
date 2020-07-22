@@ -1,10 +1,7 @@
 package netty.simple;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandler;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -16,9 +13,11 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
  */
 public class Server {
 
-    public void start() {
+    public static void start() {
 
-        NioEventLoopGroup bossGroup = new NioEventLoopGroup();  //创建一个boosGroup用于处理连接的事件
+        //创建一个boosGroup用于处理连接的事件，其中nThreads表示线程数
+        //默认情况下 nThreads *2 就是NioEventLoop的数量
+        NioEventLoopGroup bossGroup = new NioEventLoopGroup();
         NioEventLoopGroup workerGroup = new NioEventLoopGroup();//创建一个workerGroup用于处理read 和write事件
         ServerBootstrap serverBootstrap = new ServerBootstrap();
 
@@ -29,22 +28,38 @@ public class Server {
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(null);
+                        ch.pipeline().addLast(new ServerHandle());
                     }
                 });
         try {
             //监听8080端口，并启动
             ChannelFuture channelFuture = serverBootstrap.bind(8080).sync();
+            channelFuture.addListeners(new ChannelFutureListener() {
+                @Override
+                public void operationComplete(ChannelFuture future) throws Exception {
+                    if (future.isSuccess()) {
+                        System.out.println("服务器启动成功");
+                    } else {
+                        System.out.println("服务器启动失败");
+                    }
+
+                }
+            });
+
             ChannelFuture closeFuture = channelFuture.channel().closeFuture().sync();
+
 
         } catch (InterruptedException e) {
             e.printStackTrace();
+        } finally {
+            bossGroup.shutdownGracefully();
+            workerGroup.shutdownGracefully();
         }
 
     }
 
     public static void main(String[] args) {
-
+        start();
     }
 
 }

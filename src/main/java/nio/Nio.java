@@ -1,6 +1,5 @@
 package nio;
 
-import java.io.FileInputStream;
 
 /**
  * describe:

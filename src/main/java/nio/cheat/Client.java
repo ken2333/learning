@@ -58,19 +58,11 @@ public class Client extends Thread {
             //注册
             register = socketChannel.register(selector, SelectionKey.OP_READ , new Buffers(512, 512));
 
-
-
             /*等待三次握手完成*/
             while (!socketChannel.finishConnect()) {
-
             }
             write("登录成功！", loginCode);
-
-
             while (true) {
-           /*     Scanner sc = new Scanner(System.in);
-                String s = sc.nextLine();
-                socketChannel.write(ByteBuffer.wrap(s.getBytes()));*/
                 int select = selector.select();
                 if (select == 0)
                     continue;

@@ -1,6 +1,8 @@
 package netty.http;
 
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -10,49 +12,52 @@ import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
 
+import java.net.InetSocketAddress;
+
 /**
  * @author ken
  * @date 2019/3/5  23:14
- * @description
+ * @description 一个nio做的http服务器
  */
 public class HttpServer {
-    private final int port;
+    public void start() throws Exception {
+        NioEventLoopGroup bossGroup = new NioEventLoopGroup();
+        NioEventLoopGroup wokerGroup = new NioEventLoopGroup();
+        ServerBootstrap serverBootstrap = new ServerBootstrap();
+        try {
+            serverBootstrap.group(bossGroup, wokerGroup)
+                    //channel实现的类型
+                    .channel(NioServerSocketChannel.class)
+                    //设置处理器
+                    .childHandler(new HttpChannelInitializer())
+                    //determining the number of connections queued
+                    //指定连接队列的数量
+                    .option(ChannelOption.SO_BACKLOG, 128)
+                    //保持长连接
+                     .childOption(ChannelOption.SO_KEEPALIVE, Boolean.TRUE);
 
-    public HttpServer(int port) {
-        this.port = port;
+            //监听8080端口，之后等待执行完成
+            ChannelFuture sync = serverBootstrap.bind(new InetSocketAddress(8080)).sync();
+            sync.addListeners(new ChannelFutureListener() {
+                @Override
+                public void operationComplete(ChannelFuture future) throws Exception {
+                    if (future.isSuccess()) {
+                        System.out.println("启动服务器成功！");
+                    }
+
+                }
+            });
+            //等待异步执行完成
+            sync.channel().closeFuture().sync();
+
+        } finally {
+            bossGroup.shutdownGracefully();
+            wokerGroup.shutdownGracefully();
+        }
     }
 
     public static void main(String[] args) throws Exception {
-     /*   if (args.length != 1) {
-            System.err.println(
-                    "Usage: " + HttpServer.class.getSimpleName() +
-                            " <port>");
-            return;
-        }*/
-        int port =8001;
-        new HttpServer(port).start();
+        new HttpServer().start();
     }
 
-    public void start() throws Exception {
-        ServerBootstrap b = new ServerBootstrap();
-        NioEventLoopGroup group = new NioEventLoopGroup();
-        b.group(group)
-                .channel(NioServerSocketChannel.class)
-                .childHandler(new ChannelInitializer<SocketChannel>() {
-                    @Override
-                    public void initChannel(SocketChannel ch)
-                            throws Exception {
-                        System.out.println("initChannel ch:" + ch);
-                        ch.pipeline()
-                                .addLast("decoder", new HttpRequestDecoder())   // 1
-                                .addLast("encoder", new HttpResponseEncoder())  // 2
-                           .addLast("aggregator", new HttpObjectAggregator(512 * 1024))    // 3
-                                .addLast("handler", new HttpHandler());        // 4
-                    }
-                })
-                .option(ChannelOption.SO_BACKLOG, 128) // determining the number of connections queued
-                .childOption(ChannelOption.SO_KEEPALIVE, Boolean.TRUE);
-
-        b.bind(port).sync();
-    }
 }

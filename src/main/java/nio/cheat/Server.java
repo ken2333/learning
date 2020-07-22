@@ -17,18 +17,19 @@ import static nio.cheat.Client.loginCode;
 import static nio.cheat.Client.publicCode;
 
 /**
- * describe:
+ * describe: 这是一个Nio做的一个群聊服务
  *
  * @author syh
  * @date 2020/07/10
  */
 public class Server implements Runnable {
     Selector selector = null;
+
     @Override
     public void run() {
         try {
-            Charset utf8 = Charset.forName("UTF-8");
-              selector = Selector.open();
+            //获取选择器
+            selector = Selector.open();
             ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
             //设置是否阻塞
             serverSocketChannel.configureBlocking(false);
@@ -37,6 +38,7 @@ public class Server implements Runnable {
             //监听端口
             serverSocketChannel.bind(new InetSocketAddress(8080));
             while (true) {
+                //获取事件
                 int select = selector.select();
                 if (select == 0)
                     continue;
@@ -55,8 +57,6 @@ public class Server implements Runnable {
                             socketChannel.configureBlocking(false);
                             socketChannel.register(selector, SelectionKey.OP_READ, ByteBuffer.allocate(1024));
                             System.out.println("连接成功!");
-
-
                         }
                         if (next.isReadable()) {
                             ByteBuffer attachment = (ByteBuffer) next.attachment();
@@ -66,28 +66,28 @@ public class Server implements Runnable {
                             attachment.clear();
                             JSONObject object = JSONObject.parseObject(str);
                             Integer code = object.getInteger("code");
-                            switch (code)
-                            {
-                               case publicCode :{
-                                   sendToEveryBody(str, next);
-                               }
-                                case  loginCode:{
-                                    System.out.println(object.getString("name")+"登录成功！");
+                            switch (code) {
+                                case publicCode: {
+                                    sendToEveryBody(str, next);
+                                }
+                                case loginCode: {
+                                    System.out.println(object.getString("name") + "登录成功！");
                                 }
                             }
     /*                        selectableChannel.write(attachment);
                             next.interestOps(SelectionKey.OP_WRITE |SelectionKey.OP_READ);*/
                         }
                         if (next.isWritable()) {
-                             SocketChannel channel = (SocketChannel) next.channel();
-                             ByteBuffer byteBuffer = (ByteBuffer) next.attachment();
-                             channel.write(byteBuffer);
-                             byteBuffer.clear();
-                             //取消通道的写事件
-                             next.interestOps(next.interestOps() & (~SelectionKey.OP_WRITE));
-                         }
+                            SocketChannel channel = (SocketChannel) next.channel();
+                            ByteBuffer byteBuffer = (ByteBuffer) next.attachment();
+                            channel.write(byteBuffer);
+                            byteBuffer.clear();
+                            //取消通道的写事件
+                            next.interestOps(next.interestOps() & (~SelectionKey.OP_WRITE));
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
+                        //取消通道的注册
                         next.cancel();
                         next.channel().close();
                     }
@@ -101,17 +101,16 @@ public class Server implements Runnable {
         }
     }
 
-    public void sendToEveryBody(String str,SelectionKey key) throws IOException {
+    public void sendToEveryBody(String str, SelectionKey key) throws IOException {
         Set<SelectionKey> keys = selector.keys();
         for (SelectionKey selectionKey : keys) {
-            if (selectionKey==key) {
+            if (selectionKey == key) {
                 continue;
             }
-        //    JSONObject object = JSONObject.parseObject(str);
-           // object.
+            //    JSONObject object = JSONObject.parseObject(str);
+            // object.
             SelectableChannel channel = selectionKey.channel();
-            if(channel instanceof SocketChannel)
-            {
+            if (channel instanceof SocketChannel) {
                 SocketChannel socketChannel = (SocketChannel) channel;
                 socketChannel.write(ByteBuffer.wrap(str.getBytes()));
             }
