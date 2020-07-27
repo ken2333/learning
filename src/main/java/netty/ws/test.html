@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/1.10.1/jquery.js"></script>
+<style>
+    textarea {
+        width: 300px;
+        height: 300px;
+    }
+</style>
+<body>
+
+<textarea id="show"></textarea>
+<input type="text" id="text">
+<input type="button" value="提交"  onclick="sendMsg()">
+<script>
+    var ws = null;
+    if ('WebSocket' in window)
+        ws = new WebSocket("ws://localhost:8080/test");
+    else if ('MozWebSocket' in window)
+        ws = new MozWebSocket("ws://localhost:8080/test");
+    else
+        alert("not support");
+
+    ws.onmessage = function (evt) {
+        console.log(evt);
+        var data = evt.data;
+        $("#show").text(data);
+
+
+    };
+    ws.onclose = function (evt) {
+        console.log(evt);
+        $("#show").text("断开连接！")
+    };
+
+    ws.onopen = function (evt) {
+        $("#show").text("建立连接！")
+        console.log(evt);
+
+    };
+
+
+    function sendMsg() {
+        var text = $("#text").val();
+        ws.send(text);
+    }
+
+</script>
+</body>
+</html>

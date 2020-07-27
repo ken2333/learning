@@ -47,6 +47,7 @@ public class NettyServer {
                     .channel(NioServerSocketChannel.class)
                     .option(ChannelOption.SO_BACKLOG, 128)
                     .childOption(ChannelOption.SO_KEEPALIVE, true)
+                    //配置channelPipline
                     .childHandler(new NettyServerChildHanler(userMap));
 
             sync = serverBootstrap.bind(port).sync();

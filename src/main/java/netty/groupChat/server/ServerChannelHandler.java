@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 /**
- * describe:
+ * describe: 这个是我自己写的
  *
  * @author syh
  * @date 2020/07/22
@@ -51,7 +51,10 @@ public class ServerChannelHandler extends ChannelInboundHandlerAdapter {
                         ChannelHandlerContext channelHandlerContext = userMap.get(next);
                         if (!StringUtils.equals(next, name)) {
                             ByteBuf returnMsg = Unpooled.copiedBuffer(s, Charsets.UTF_8);
-                            channelHandlerContext.writeAndFlush(returnMsg);
+                            ChannelFuture channelFuture = channelHandlerContext.writeAndFlush(returnMsg);
+                            channelFuture.addListeners(future -> {
+                                System.out.println("信息发送成功！");
+                            });
                         }
                     }
                 });
