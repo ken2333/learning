@@ -1,10 +1,11 @@
-package netty.simple;
+package netty.proto;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.protobuf.ProtobufEncoder;
 
 import java.net.InetSocketAddress;
 
@@ -26,12 +27,11 @@ public class Client {
                     .handler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
+                            ch.pipeline().addLast("encode",new ProtobufEncoder());
                             ch.pipeline().addLast(new ClientHandle());
                         }
                     });
-
             ChannelFuture channelFuture = bootstrap.connect(new InetSocketAddress("127.0.0.1", 8080)).sync();
-
             channelFuture.channel().closeFuture().sync();
             System.out.println("客户端已启动");
 
@@ -44,6 +44,6 @@ public class Client {
     }
 
     public static void main(String[] args) {
-        Client.start();
+        start();
     }
 }

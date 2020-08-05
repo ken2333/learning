@@ -1,10 +1,18 @@
-package netty.simple;
+package netty.ssl;
 
+import com.google.common.base.Charsets;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.string.StringDecoder;
+import io.netty.handler.codec.string.StringEncoder;
+import io.netty.handler.ssl.SslHandler;
+import netty.customizeProto.MyProtocolDecode;
+import netty.customizeProto.MyProtocolEncoder;
+
+import javax.net.ssl.SSLEngine;
 
 /**
  * @author ken
@@ -28,7 +36,16 @@ public class Server {
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new ServerHandle() );
+                        ChannelPipeline pipeline = ch.pipeline();
+                        String sChatPath = "C:\\Users\\ken\\Desktop\\tem\\sChat.jks";
+                        SSLEngine engine = SecureChatSslContextFactory.getServerContext(sChatPath).createSSLEngine();
+                        engine.setUseClientMode(false);//设置为服务器模式
+                        engine.setNeedClientAuth(false);//不需要客户端认证，默认为false，故不需要写这行。
+                        pipeline.addLast("ssl", new SslHandler(engine));
+                        //添加自定义的解码器
+                        ch.pipeline().addLast(new StringDecoder(Charsets.UTF_8));
+                        ch.pipeline().addLast(new StringEncoder(Charsets.UTF_8));
+                        ch.pipeline().addLast(new ServerHandle());
                     }
                 });
         try {

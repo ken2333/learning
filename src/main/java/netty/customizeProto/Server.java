@@ -1,7 +1,10 @@
-package netty.simple;
+package netty.customizeProto;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.*;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -28,7 +31,10 @@ public class Server {
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new ServerHandle() );
+                        //添加自定义的解码器
+                        ch.pipeline().addLast(new MyProtocolDecode());
+                        ch.pipeline().addLast(new MyProtocolEncoder());
+                        ch.pipeline().addLast(new ServerHandle());
                     }
                 });
         try {

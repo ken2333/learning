@@ -15,6 +15,7 @@ import java.security.MessageDigest;
  * @date 2020/05/21
  */
 public class CaculateMd5 {
+
     @Test
     public void test() {
         File file = new File("C:\\Users\\ken\\Desktop\\goole浏览器设置方法.docx");
@@ -67,6 +68,7 @@ public class CaculateMd5 {
                 e.printStackTrace();
             }
         }
+
         return md5;
     }
 

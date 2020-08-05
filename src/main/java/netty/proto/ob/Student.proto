@@ -1,0 +1,6 @@
+syntax="proto3"; //协议的版本
+option java_outer_classname="StudentOb"; //生成外部类名
+message Student{  //这个是内部类的名称
+  int64 id=1; //int64这个是protobuff的类型， id表示类的成员变量的名称。1表示的是序号
+  string  name=2;
+}

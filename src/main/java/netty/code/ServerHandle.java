@@ -1,8 +1,10 @@
-package netty.simple;
+package netty.code;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import io.netty.channel.*;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.CharsetUtil;
 
 import java.net.SocketAddress;
@@ -21,19 +23,18 @@ public class ServerHandle extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
-        ByteBuf byteBuf = (ByteBuf) msg;
-        //把数据转化成string
-        String s = byteBuf.toString(CharsetUtil.UTF_8);
+        String s = (String) msg;
         Channel channel = ctx.channel();
         SocketAddress socketAddress = channel.remoteAddress();
         System.out.println("来自客户端" + socketAddress.toString() + "的信息：" + s);
+
 
     }
 
     //读取数据完毕后,返回一个数据给客户端
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-       ctx.writeAndFlush(Unpooled.copiedBuffer("已收到信息！".getBytes(CharsetUtil.UTF_8)));
+     //  ctx.writeAndFlush(Unpooled.copiedBuffer("已收到信息！".getBytes(CharsetUtil.UTF_8)));
 
     }
 

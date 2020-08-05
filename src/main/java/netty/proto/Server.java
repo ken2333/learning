@@ -1,10 +1,12 @@
-package netty.simple;
+package netty.proto;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.protobuf.ProtobufDecoder;
+import netty.proto.ob.StudentOb;
 
 /**
  * @author ken
@@ -28,7 +30,8 @@ public class Server {
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new ServerHandle() );
+                        ch.pipeline().addLast("decode",new ProtobufDecoder(StudentOb.Student.getDefaultInstance()));
+                        ch.pipeline().addLast(new ServerHandle());
                     }
                 });
         try {
@@ -59,7 +62,7 @@ public class Server {
     }
 
     public static void main(String[] args) {
-        Server.start();
+        start();
     }
 
 }

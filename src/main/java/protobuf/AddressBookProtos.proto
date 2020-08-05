@@ -1,0 +1,34 @@
+//设置proto 版本
+syntax = "proto3";
+//定义java的包名
+//option java_package = "java.test";
+option  java_outer_classname = "AddressBookProtos";
+
+message Person{
+
+  string name = 1;
+  int64  id = 2;
+  string email = 3;
+  //repeated 表示一个可重复的，在Java中是一个List
+  repeated PhoneNumber phone = 4;
+
+
+  //这是一个类,其中第一个枚举类，必须是0
+  enum PhoneType {
+    MOBILE = 0;
+    HOME = 1;
+    WORK = 2;
+  }
+
+
+  message PhoneNumber {
+    string number = 1;
+    PhoneType type = 2 ;
+  }
+}
+
+
+// Our address book file is just one of these.
+message AddressBook {
+  repeated Person person = 1;
+}
