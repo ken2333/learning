@@ -3,9 +3,9 @@ package thread.chapter2;
 /**
  * @author ken
  * @date 2019/10/29  23:11
- * @description  join表示当前线程等待t1线程执行完后,接下来再执行代码
+ * @description  yield表示谦让的意思，会把当前的线程的优先度调低，把机会给其他线程，但是不代表不参与cpu的竞争。
  */
-public class JoinTest {
+public class YieldTest {
 
     private  static  int count=0;
     public static  class R1 implements Runnable
@@ -23,8 +23,8 @@ public class JoinTest {
     public static void main(String[] args) throws InterruptedException {
         Thread t1=new Thread(new R1(),"子线程");
         t1.start();
-        //让当前线程等待指定的线程，这里就是让主线程等待子线程执行完毕后再往下面走
-        t1.join();
+        //把主线程的优先度调低
+        Thread.yield();
         System.out.println(count);
     }
 

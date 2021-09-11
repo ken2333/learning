@@ -1,9 +1,8 @@
 package Threand.call;
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.FutureTask;
+import org.junit.Test;
+
+import java.util.concurrent.*;
 
 /**
  * @author ken
@@ -28,5 +27,20 @@ public class FutureTest {
         }
 
 
+    }
+
+    @Test
+    public void test()
+    {
+        FutureTask<String> test = new FutureTask<>(new RealData("test"));
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        Future<String> submit = executorService.submit(new RealData("123"));
+        try {
+            System.out.println(submit.get());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 }

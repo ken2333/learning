@@ -43,7 +43,7 @@ public class ReetrerLockTest {
             t2.start();
             t1.join();
             t2.join();
-            System.out.println("结果" + R1.count);
+            System.out.println("结果：" + R1.count);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

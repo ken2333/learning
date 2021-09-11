@@ -9,18 +9,19 @@ import java.util.List;
  */
 public class Products {
 
-    private  String name;
+    private String name;
 
-    private  int price;
+    private int price;
 
     private Date creatTime;
 
-    private HashMap<String,String>hashMap;
+    private HashMap<String, String> hashMap;
+
     public Products(String name, int price, Date creatTime) {
         this.name = name;
         this.price = price;
         this.creatTime = creatTime;
-        this.hashMap=new HashMap<>();
+        this.hashMap = new HashMap<>();
         this.hashMap.put("test", "test");
     }
 
@@ -48,6 +49,12 @@ public class Products {
     }
 
     public void setCreatTime(Date creatTime) {
+
         this.creatTime = creatTime;
+    }
+
+    @Override
+    public String toString() {
+        return name +":"+ price;
     }
 }

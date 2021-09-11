@@ -45,9 +45,10 @@ public class test {
           start = System.currentTimeMillis() ;
           List<Products> list = new ArrayList<Products>();
         for(byte[] bs : bytes) {
-            Products product = new Products();
+            Products product = schema.newMessage();
             ProtostuffIOUtil.mergeFrom(bs, product, schema);
             list.add(product);
+            System.out.println(product);
         }
           end = System.currentTimeMillis() ;
         System.out.println("消耗的时间"+(end-start));

@@ -12,10 +12,10 @@ public class Client {
         FutureData futureData = new FutureData();
         //这里启用了另一个线程进行异步处理
         new Thread() {
-            @Override
-            public void run() {
+                @Override
+                public void run() {
                 //构造正式的数据
-                RealData realData = new RealData("参数");
+                RealData realData = new RealData(par);
                 // 把这个数据放入到futureData中
                 futureData.setRealData(realData);
             }

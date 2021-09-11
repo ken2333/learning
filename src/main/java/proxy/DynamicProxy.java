@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
-/**
+/** 动态代理
  * @author ken
  * @date 2019/5/8  23:28
  * @description

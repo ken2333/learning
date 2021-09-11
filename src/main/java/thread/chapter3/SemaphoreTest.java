@@ -1,4 +1,4 @@
-package Threand;
+package thread.chapter3;
 
 import java.util.concurrent.Semaphore;
 

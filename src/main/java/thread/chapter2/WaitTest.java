@@ -21,6 +21,7 @@ public class WaitTest {
             synchronized (ob) {
                 System.out.println("线程" + name + "获取了对象");
                 try {
+                    //进入等待状态
                     ob.wait();
                     System.out.println("线程" + name + "开始执行了");
                 } catch (InterruptedException e) {
@@ -28,8 +29,6 @@ public class WaitTest {
                     Thread.currentThread().interrupt();
                 }
             }
-
-
         }
     }
 
@@ -47,6 +46,7 @@ public class WaitTest {
         public void run() {
             synchronized (ob) {
                 System.out.println("线程" + name + "获取了对象");
+                //随机唤醒一个线程
                 ob.notify();
                 System.out.println("线程" + name + "提示了对象");
             }
@@ -54,13 +54,11 @@ public class WaitTest {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        Object ob=new Object();
-        Thread t1=new Thread(new R1(ob,"a"));
-        Thread t2=new Thread(new R2(ob,"b"));
+        Object ob = new Object();
+        Thread t1 = new Thread(new R1(ob, "a"));
+        Thread t2 = new Thread(new R2(ob, "b"));
         t1.start();
         Thread.sleep(2000);
         t2.start();
-
-
     }
 }
